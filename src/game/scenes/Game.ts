@@ -35,6 +35,8 @@ export class Game extends Scene {
       .setDepth(100);
 
     EventBus.emit("current-scene-ready", this);
+
+    // this.time.delayedCall(5000, this.changeScene, [], this);
   }
 
   changeScene() {

@@ -1,6 +1,7 @@
 import { GameObjects, Scene } from "phaser";
-
 import { EventBus } from "../EventBus";
+
+import { ButtonCreator } from "../ui/buttonCreator";
 
 export class MainMenu extends Scene {
   background: GameObjects.Image;
@@ -15,29 +16,35 @@ export class MainMenu extends Scene {
   create() {
     this.background = this.add.image(512, 384, "background");
 
-    this.logo = this.add.image(512, 300, "logo").setDepth(100);
-
-    this.title = this.add
-      .text(512, 460, "Main Menu", {
-        fontFamily: "Arial Black",
-        fontSize: 38,
-        color: "#ffffff",
-        stroke: "#000000",
-        strokeThickness: 8,
-        align: "center",
-      })
-      .setOrigin(0.5)
+    this.logo = this.add
+      .image(this.scale.width / 2, (this.scale.height * 2) / 5, "logo")
       .setDepth(100);
+
+    // this.title = this.add
+    //   .text(512, 460, "Main Menu", {
+    //     fontFamily: "Arial Black",
+    //     fontSize: 38,
+    //     color: "#ffffff",
+    //     stroke: "#000000",
+    //     strokeThickness: 8,
+    //     align: "center",
+    //   })
+    //   .setOrigin(0.5)
+    //   .setDepth(100);
+
+    const buttonCreator = new ButtonCreator(this);
+    buttonCreator.create(
+      this.scale.width / 2,
+      (this.scale.height * 3) / 5,
+      "playButton",
+      "playButtonGrayscale",
+      this.changeScene,
+    );
 
     EventBus.emit("current-scene-ready", this);
   }
 
   changeScene() {
-    if (this.logoTween) {
-      this.logoTween.stop();
-      this.logoTween = null;
-    }
-
     this.scene.start("Game");
   }
 
