@@ -38,6 +38,8 @@ export class Game extends Scene {
     this.input.on("pointerdown", () => miner.toggleHook());
 
     EventBus.emit("current-scene-ready", this);
+
+    // this.time.delayedCall(5000, this.changeScene, [], this);
   }
 
   update(time: number, delta: number) {

@@ -34,12 +34,18 @@ export class Preloader extends Scene {
     this.load.image("logo", "logo.png");
     this.load.image("star", "star.png");
 
+
     this.load.image("game-background", "game-bg.png");
     this.load.image("hook", "hook.png");
     this.load.spritesheet("miner", "miner.png", {
       frameWidth: 512,
       frameHeight: 180,
     });
+
+    this.load.image("playButton", "playButton.png");
+    this.load.image("playButtonGrayscale", "playButtonGrayscale.png");
+    this.load.image("restartButton", "restartButton.png");
+    this.load.image("restartButtonGrayscale", "restartButtonGrayscale.png");
   }
 
   create() {
