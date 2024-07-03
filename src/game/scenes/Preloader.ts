@@ -20,6 +20,11 @@ export class Preloader extends Scene {
       //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
       bar.width = 4 + 460 * progress;
     });
+
+    // TODO: remove, just for test
+    this.load.on("complete", () => {
+      this.scene.start("Game");
+    });
   }
 
   preload() {
@@ -28,6 +33,13 @@ export class Preloader extends Scene {
 
     this.load.image("logo", "logo.png");
     this.load.image("star", "star.png");
+
+    this.load.image("game-background", "game-bg.png");
+    this.load.image("hook", "hook.png");
+    this.load.spritesheet("miner", "miner.png", {
+      frameWidth: 512,
+      frameHeight: 180,
+    });
   }
 
   create() {
