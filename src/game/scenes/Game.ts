@@ -1,3 +1,4 @@
+import { Excavator } from "../entities/excavator/Excavator";
 import { EventBus } from "../EventBus";
 import { Scene } from "phaser";
 
@@ -6,37 +7,43 @@ export class Game extends Scene {
   background: Phaser.GameObjects.Image;
   gameText: Phaser.GameObjects.Text;
 
+  miner: Excavator;
+
   constructor() {
     super("Game");
   }
 
   create() {
     this.camera = this.cameras.main;
-    this.camera.setBackgroundColor(0x00ff00);
+    this.camera.setBackgroundColor(0x000000);
 
-    this.background = this.add.image(512, 384, "background");
-    this.background.setAlpha(0.5);
+    this.background = this.add.image(
+      this.scale.width / 2,
+      this.scale.height / 2,
+      "game-background",
+    );
+    this.background.displayWidth = this.sys.game.config.width as number;
+    this.background.displayHeight = this.sys.game.config.height as number;
 
-    this.gameText = this.add
-      .text(
-        512,
-        384,
-        "Make something fun!\nand share it with us:\nsupport@phaser.io",
-        {
-          fontFamily: "Arial Black",
-          fontSize: 38,
-          color: "#ffffff",
-          stroke: "#000000",
-          strokeThickness: 8,
-          align: "center",
-        },
-      )
-      .setOrigin(0.5)
-      .setDepth(100);
+    this.miner = new Excavator({
+      scene: this,
+      x: this.scale.width / 2,
+      y: this.scale.height / 3,
+      ropeLength: 200,
+      ropeWidth: 5,
+      maxAngle: 50,
+    });
+
+    let miner = this.miner;
+    this.input.on("pointerdown", () => miner.toggleHook());
 
     EventBus.emit("current-scene-ready", this);
 
     // this.time.delayedCall(5000, this.changeScene, [], this);
+  }
+
+  update(time: number, delta: number) {
+    this.miner.update(delta);
   }
 
   changeScene() {
